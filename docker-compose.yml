@@ -1,0 +1,30 @@
+volumes:
+    media-data: {}
+    db-data: {}
+
+services:
+
+    postgres:
+        image: postgres:16.3-alpine
+        shm_size: 1g
+        env_file: .env
+        volumes:
+            - db-data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        restart: on-failure
+
+    backend:
+        restart: unless-stopped
+        depends_on:
+            - postgres
+        build:
+            context: .
+        env_file: .env
+        volumes:
+            - .:/app
+            - media-data:/media
+        ports:
+            - "8000:8000"
+        command:
+            - runserver
