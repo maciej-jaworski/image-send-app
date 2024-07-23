@@ -23,3 +23,12 @@
 
 ## Open the app
 Go to http://localhost:8000/ , default login / pw combo is `admin / admin`
+
+
+## Run tests
+```bash
+# Using makefile
+make test
+# Docker directly
+docker compose run backend test
+```
